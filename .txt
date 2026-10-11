@@ -1,0 +1,43 @@
+PS D:\Projects\Projects\Ai app> $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/v1/dilemmas/analyze" `
+>>   -Method Post `
+>>   -ContentType "application/json" `
+>>   -Body (@{
+>>       dilemma = "I am working long hours on my startup, but I feel constant anxiety about whether it will succeed or fail financially. Should I keep pushing or protect my resources?"
+>>       mode = "synthesis"
+>>   } | ConvertTo-Json)
+>> 
+>> Write-Host "`n=== SYNTHESIS ANALYSIS ===" -ForegroundColor Cyan
+>> $resp.analysis
+>> 
+>> Write-Host "`n=== ACTION PLAN ===" -ForegroundColor Yellow
+>> $resp.action_plan | ForEach-Object { "- $_" }
+>> 
+>> Write-Host "`n=== VERIFIED CITATIONS ===" -ForegroundColor Green
+>> $resp.citations | Format-Table canonical_id, tradition, chapter, verse_number
+
+=== SYNTHESIS ANALYSIS ===
+Your anxiety stems from an excessive attachment to the financial outcome of your startup, which directly violates the principle of Nishkam Karma outlined in the Bhagavad Gita (BG_02_47). You are focusing on the fruits of your actions rather than the execution of your duties. Simultaneously, Chanakya Niti teaches that strategic self-preservation and resource management are paramount during times of adversity (CN_01_05). Working endlessly while experiencing severe financial and mental anxiety risks your core well-being and resources. True Dharmic execution requires that you detach from the fear of failure while practicing pragmatism—protecting your capital reserves and your physical and mental health before sacrificing everything to a single venture.
+
+=== ACTION PLAN ===
+- Detach your self-worth and daily peace of mind from the financial outcome or survival of the startup, focusing purely on high-quality execution.
+- Evaluate your runway and establish a strict contingency reserve to protect your basic livelihood and safety, applying the principle of self-preservation.
+- Audit your current work hours and resource allocation to prevent burnout, ensuring your personal well-being is safeguarded above all.
+
+=== VERIFIED CITATIONS ===
+
+canonical_id tradition     chapter verse_number
+------------ ---------     ------- ------------
+BG_02_47     bhagavad_gita       2           47
+CN_01_05     chanakya_niti       1            5
+
+PS D:\Projects\Projects\Ai app> python scripts/ingestion/ingest_seed_data.py
+C:\Users\pavan\AppData\Local\Programs\Python\Python314\python.exe: can't open file 'D:\\Projects\\Projects\\Ai app\\scripts\\ingestion\\ingest_seed_data.py': [Errno 2] No such file or directory
+PS D:\Projects\Projects\Ai app> cd dharmic-ai
+PS D:\Projects\Projects\Ai app\dharmic-ai> python scripts/ingestion/ingest_seed_data.py
+Successfully ingested 8 verified records into ChromaDB at 'data/chroma_db'
+PS D:\Projects\Projects\Ai app\dharmic-ai> 
+
+
+
+// backend
+uvicorn backend.app.main:app --reload --port 8000
